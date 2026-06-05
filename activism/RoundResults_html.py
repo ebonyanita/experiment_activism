@@ -22,10 +22,7 @@ def content_block(player, components, **api_kwargs):
     <p>Total group contribution: {int(float(total_contrib))} points</p>
     <p>Your round payoff: {int(float(player.round_payoff))} points</p>
     """
-    if player.round_number == C.NUM_ROUNDS:
-        yield from soft_timer_html(C.ROUND_RESULTS_TIME, 'This completes the experiment, please continue to the questionnaire.')
-    else:
-        yield from soft_timer_html(C.ROUND_RESULTS_TIME, 'Please continue.')
+    yield from soft_timer_html(C.ROUND_RESULTS_TIME, 'Please continue.')
     yield components.next_button()
     yield components.js_script('soft_timer.js')
 

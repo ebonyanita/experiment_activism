@@ -292,4 +292,11 @@ class RoundResults(Page):
     @staticmethod
     def bot_available_submissions(id_in_group, round_number, session_config):
         return [dict(fields=dict(), button_label='Next')]
-page_sequence = [SeatNumber, WaitForSeats, InstructionsPart2, ActivismChoice, WaitForActivism, EffortTask, Contribute, WaitForResults, RoundResults]
+class Conclusion(Page):
+    @staticmethod
+    def is_displayed(player: Player):
+        return player.round_number == C.NUM_ROUNDS
+    @staticmethod
+    def bot_available_submissions(id_in_group, round_number, session_config):
+        return [dict(fields=dict(), button_label='Continue')]
+page_sequence = [SeatNumber, WaitForSeats, InstructionsPart2, ActivismChoice, WaitForActivism, EffortTask, Contribute, WaitForResults, RoundResults, Conclusion]

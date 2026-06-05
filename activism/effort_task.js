@@ -10,6 +10,9 @@ function initEffortTask() {
   document.querySelector('#answer-input').addEventListener('keypress', function(e) {
       if (e.key === 'Enter') submitAnswer();
   });
+  document.querySelector('#answer-input').addEventListener('keydown', function(e) {
+      if (['.', 'e', 'E', '+', '-'].includes(e.key)) e.preventDefault();
+  });
 }
 
 function liveRecv(data) {
