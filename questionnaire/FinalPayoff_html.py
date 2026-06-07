@@ -19,11 +19,8 @@ def content_block(player, components, **api_kwargs):
         total_eur = payoff_eur + fee
         yield f"""
         <h2>Your Results</h2>
-        <p>Should this experiment be selected for payment, the round randomly chosen to determine your earnings is round {selected_round}.</p>
-        <p>Your earnings from the experiment: €{payoff_eur:.2f}</p>
-        <p>Fixed fee: €{fee:.2f}</p>
-        <p><b>Your total payment: €{total_eur:.2f}</b></p>
-        <p>Thank you for participating!</p>
+        <p>From the 14 rounds, round {selected_round} was randomly selected for payoff. In that round, you earned €{payoff_eur:.2f}.</p>
+        <p>So if this experiment is randomly selected for payoff at the end of the session, then your payoff will be €{total_eur:.2f}.</p>
         """
     else:
         yield "<p>Your payment will be calculated and displayed shortly.</p>"

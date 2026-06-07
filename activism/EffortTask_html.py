@@ -1,6 +1,6 @@
 
 
-from . import C, CountingTrial, RoundGrid, activism_update_html
+from . import C, CountingTrial, RoundGrid, activism_update_html, round_header_html
 
 
 # built-in hook renderer(s) (called automatically by oTree)
@@ -43,7 +43,7 @@ def meta_title_block(player, components, **api_kwargs):
 
 
 def title_block(player, components, **api_kwargs):
-    yield ""
+    yield round_header_html(player)
 
 
 # </hook-functions>

@@ -1,7 +1,7 @@
 
 
 
-from . import C, soft_timer_html
+from . import C, soft_timer_html, round_header_html
 
 
 # built-in hook renderer(s) (called automatically by oTree)
@@ -46,6 +46,7 @@ def content_block(player, components, **api_kwargs):
     yield from soft_timer_html(C.ACTIVISM_CHOICE_TIME, 'Please state your decision and continue.')
     yield components.next_button()
     yield components.js_script('soft_timer.js')
+    yield components.js_script('clear_form.js')
 
 
 def meta_title_block(player, components, **api_kwargs):
@@ -53,7 +54,7 @@ def meta_title_block(player, components, **api_kwargs):
 
 
 def title_block(player, components, **api_kwargs):
-    yield ""
+    yield round_header_html(player)
 
 
 # </hook-functions>

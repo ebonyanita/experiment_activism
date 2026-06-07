@@ -129,6 +129,19 @@ def activism_update_html(player):
     # EffortTask version: an "Activism update:" paragraph (empty in Part 1).
     text = activism_update_text(player)
     return f'<p><b>Activism update:</b> {text}</p>' if text else ''
+def round_header_text(player):
+    # "Part 1 – Round X of 7" header; the round counter resets each part.
+    if player.round_number <= C.NUM_ROUNDS_PART1:
+        part = 1
+        round_in_part = player.round_number
+        total = C.NUM_ROUNDS_PART1
+    else:
+        part = 2
+        round_in_part = player.round_number - C.NUM_ROUNDS_PART1
+        total = C.NUM_ROUNDS_PART2
+    return f'Part {part} – Round {round_in_part} of {total}'
+def round_header_html(player):
+    return f'<p class="round-header"><b>{round_header_text(player)}</b></p>'
 # </helper-functions>
 class RoundGrid(ExtraModel):
     subsession = models.Link(Subsession)

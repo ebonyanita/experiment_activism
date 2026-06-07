@@ -1,7 +1,7 @@
 
 from otree.api import cu
 
-from . import C, soft_timer_html
+from . import C, soft_timer_html, round_header_html
 
 
 # built-in hook renderer(s) (called automatically by oTree)
@@ -16,7 +16,7 @@ def content_block(player, components, **api_kwargs):
     wage_int = int(float(player.wage))
     contrib_int = int(float(player.contribution))
     yield f"""
-    <p><b>Round {player.round_number} results:</b></p>
+    <p><b>Results:</b></p>
     <p>Your wage: {wage_int} points</p>
     <p>Your contribution: {contrib_int} points</p>
     <p>Total group contribution: {int(float(total_contrib))} points</p>
@@ -32,7 +32,7 @@ def meta_title_block(player, components, **api_kwargs):
 
 
 def title_block(player, components, **api_kwargs):
-    yield ""
+    yield round_header_html(player)
 
 
 # </hook-functions>

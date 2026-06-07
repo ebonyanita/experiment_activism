@@ -40,11 +40,11 @@ def content_block(player, components, **api_kwargs):
     yield f"""
     <h2>Additional Instructions</h2>
     
-    <p>You have now completed the first part of this experiment. The second part consists of {C.NUM_ROUNDS_PART2} additional periods.</p>
+    <p>You have now completed the first part of this experiment. The second part consists of {C.NUM_ROUNDS_PART2} additional rounds.</p>
 
     <p>Part 2 is very similar to Part 1. You remain in the same group of four as in the first part. The difference is that <b>before</b> the work task, there is now an additional <b>Activism Stage</b>.</p>
     
-    <p>As stated in the printed instructions, at the end of the experiment, the computer will randomly select one period to determine your payment. The first {C.NUM_ROUNDS_PART1} periods, without activism, and these remaining {C.NUM_ROUNDS_PART2} periods, with activism, are included in the draw.</p>
+    <p>As stated in the printed instructions, at the end of the experiment, the computer will randomly select one round to determine your payment. The first {C.NUM_ROUNDS_PART1} rounds, without activism, and these remaining {C.NUM_ROUNDS_PART2} rounds, with activism, are included in the draw.</p>
     
     <h3>Activism Stage</h3>
     
@@ -52,7 +52,7 @@ def content_block(player, components, **api_kwargs):
 
     <p style="text-align: center;"><i>Everyone should contribute to the group project.</i></p>
     
-    <p>At the beginning of each period, you must choose whether you want to participate (select Yes or No). Your decision will be publicly revealed to your group members during the work task.</p>
+    <p>At the beginning of each round, you must choose whether you want to participate (select Yes or No). Your decision will be publicly revealed to your group members during the work task.</p>
     
     {activism_form}
     
