@@ -38,7 +38,7 @@ def content_block(player, components, **api_kwargs):
         """
     
     yield f"""
-    <h2>Additional Instructions</h2>
+    <h2>Part 2 Instructions</h2>
     
     <p>You have now completed the first part of this experiment. The second part consists of {C.NUM_ROUNDS_PART2} additional rounds.</p>
 
