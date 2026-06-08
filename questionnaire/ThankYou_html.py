@@ -13,6 +13,7 @@ from . import C
 def content_block(player, components, **api_kwargs):
     
             yield "<p>Thank you for participating!</p>"
+            yield "<p>Please wait patiently until all groups have finished.</p>"
     
 
 

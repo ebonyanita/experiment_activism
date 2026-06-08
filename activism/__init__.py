@@ -35,7 +35,7 @@ class C(BaseConstants):
     ROUND_RESULTS_TIME = 20
     POINT_TO_EURO_RATE = 0.15
     PERCENT = 100
-    GRIDS_PER_ROUND = 30
+    GRIDS_PER_ROUND = 15
     MAX_SEAT_NUMBER = 32
     TIMER_INTERVAL_MS = 1000
     NUM_ROUNDS_PART2 = 7
@@ -63,7 +63,7 @@ def creating_session(subsession: Subsession):
     import random
     if subsession.round_number == 1:
         subsession.group_randomly()
-        treatments = ['petition', 'demonstration', 'roadblock']
+        treatments = subsession.session.config.get('treatments', ['petition', 'demonstration', 'roadblock'])
         for idx, group in enumerate(subsession.get_groups()):
             treatment = treatments[idx % len(treatments)]
             group.treatment = treatment
