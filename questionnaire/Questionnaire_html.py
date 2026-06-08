@@ -42,6 +42,8 @@ def content_block(player, components, **api_kwargs):
         yield f"<tr><td style='padding-right:16px'>{label}</td><td>"
         for i in range(C.SCALE_MIN, C.SCALE_MAX + 1):
             yield f"<label style='margin-right:12px'>{getattr(components.form, field_name)[i-1]} {i}</label>"
+        for error in components.form[field_name].errors:
+            yield f"<div class='form-control-errors'>{error}</div>"
         yield "</td></tr>"
     yield "</table>"
     yield "</div>"
@@ -71,6 +73,8 @@ def _scale_question(components, q_num, field_name, text, scale_min, scale_max, m
     yield f"<p><i>Scale: {scale_min} ({min_label}) — {scale_max} ({max_label})</i></p>"
     for i in range(scale_min, scale_max + 1):
         yield f"<label style='margin-right:12px'>{getattr(components.form, field_name)[i - scale_min]} {i}</label>"
+    for error in components.form[field_name].errors:
+        yield f'<div class="form-control-errors">{error}</div>'
     yield "</div>"
 
 

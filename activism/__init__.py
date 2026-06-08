@@ -298,10 +298,11 @@ class WaitForResults(WaitPage):
             p.round_payoff = p.wage - p.contribution + cu(round(C.MPCR * float(total_contribution), 2))
         if group.round_number == C.NUM_ROUNDS:
             import random
+            rate = C.POINT_TO_EURO_RATE
+            selected_round = random.randint(1, C.NUM_ROUNDS)
             for p in group.get_players():
-                selected = random.choice(p.in_all_rounds())
-                p.participant.selected_round = selected.round_number
-                rate = C.POINT_TO_EURO_RATE
+                selected = p.in_round(selected_round)
+                p.participant.selected_round = selected_round
                 p.participant.payoff = selected.round_payoff * rate
 class RoundResults(Page):
     form_model = 'player'
