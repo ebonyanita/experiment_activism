@@ -20,7 +20,7 @@ def content_block(player, components, **api_kwargs):
     <p>Your wage: {wage_int} points</p>
     <p>Your contribution: {contrib_int} points</p>
     <p>Total group contribution: {int(float(total_contrib))} points</p>
-    <p>Your round payoff: {int(float(player.round_payoff))} points</p>
+    <p>Your round payoff: {player.round_payoff} points</p>
     """
     yield from soft_timer_html(C.ROUND_RESULTS_TIME, 'Please continue.')
     yield components.next_button()

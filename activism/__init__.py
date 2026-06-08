@@ -285,7 +285,10 @@ class Contribute(Page):
         return ['contribution']
     @staticmethod
     def error_message(player: Player, values):
-        if values['contribution'] > player.wage:
+        contribution = values['contribution']
+        if float(contribution) != int(float(contribution)):
+            return 'Please enter a whole number (no decimals).'
+        if contribution > player.wage:
             return f'Your contribution cannot exceed your wage of {int(float(player.wage))}.'
 class WaitForResults(WaitPage):
     @staticmethod
