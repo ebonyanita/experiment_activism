@@ -49,6 +49,7 @@ class Group(BaseGroup):
     num_activists = models.IntegerField()
     num_roadblockers = models.IntegerField()
     treatment = models.StringField(choices=['petition', 'demonstration', 'roadblock'], label='Treatment')
+    total_contribution = models.CurrencyField()
 class Player(BasePlayer):
     effort_score = models.IntegerField()
     wage = models.CurrencyField()
@@ -234,14 +235,30 @@ class EffortTask(Page):
         return player.actual_effort_time
     @staticmethod
     async def live_method(player: Player, data):
-        
-        answer = int(data['answer'])
+
+        # Guard against malformed/stray payloads. The client only ever sends
+        # {answer, grid} (effort_task.js), but a reconnect or stray message, or
+        # a non-numeric value, would otherwise raise KeyError/ValueError and
+        # crash the async handler -> H13 (connection closed without response).
+        if not isinstance(data, dict) or 'answer' not in data or 'grid' not in data:
+            return
+        try:
+            answer = int(data['answer'])
+        except (TypeError, ValueError):
+            return
         grid_str = data['grid']
         num_ones = sum(1 for c in grid_str if c == '1')
         is_correct = answer == num_ones
         
         existing_trials = CountingTrial.filter(player=player)
-        
+
+        # Guard: a live message can arrive before the first trial exists
+        # (reconnecting websocket, stray/duplicate message). Without this,
+        # existing_trials[-1] raises IndexError and crashes the async handler,
+        # which surfaces as an H13 (connection closed without response).
+        if not existing_trials:
+            return
+
         # Update the last created trial with the answer
         last_trial = existing_trials[-1]
         last_trial.answer = answer
@@ -293,9 +310,9 @@ class Contribute(Page):
 class WaitForResults(WaitPage):
     @staticmethod
     def after_all_players_arrive(group: Group):
-        total_contribution = sum((p.contribution for p in group.get_players()), cu(0))
+        group.total_contribution = sum((p.contribution for p in group.get_players()), cu(0))
         for p in group.get_players():
-            p.round_payoff = p.wage - p.contribution + cu(round(C.MPCR * float(total_contribution), 2))
+            p.round_payoff = p.wage - p.contribution + cu(round(C.MPCR * float(group.total_contribution), 2))
         if group.round_number == C.NUM_ROUNDS:
             import random
             rate = C.POINT_TO_EURO_RATE

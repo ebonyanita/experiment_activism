@@ -1,6 +1,6 @@
 
 
-from . import C, CountingTrial, RoundGrid, activism_update_html, round_header_html
+from . import C, CountingTrial, RoundGrid, activism_update_html, round_header_html, generate_grid
 
 
 # built-in hook renderer(s) (called automatically by oTree)
@@ -16,9 +16,23 @@ def content_block(player, components, **api_kwargs):
                 current_trial = existing[-1]
                 grid_str = current_trial.grid
             else:
-                [first_grid] = RoundGrid.filter(
+                first_grids = RoundGrid.filter(
                     subsession=player.subsession, trial_index=0
                 )
+                if first_grids:
+                    first_grid = first_grids[0]
+                else:
+                    # Grids should always be pre-generated in creating_session;
+                    # if they're somehow missing, generate one on the fly rather
+                    # than 500-ing on a strict unpack.
+                    grid = generate_grid(C.GRID_SIZE)
+                    first_grid = RoundGrid.create(
+                        subsession=player.subsession,
+                        round_number=player.round_number,
+                        trial_index=0,
+                        grid=grid,
+                        num_ones=sum(1 for c in grid if c == '1'),
+                    )
                 CountingTrial.create(player=player, grid=first_grid.grid, num_ones=first_grid.num_ones)
                 grid_str = first_grid.grid
             
